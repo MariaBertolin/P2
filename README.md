@@ -142,15 +142,25 @@ Ejercicios
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
 
+		Un valor adecuado de nivel de potencia para diferenciar el silencio y la voz es declarar:
+					T[n] > -40dB  => Voz
+					T[n] < -40dB  => Silencio
+
 	* Duración mínima razonable de los segmentos de voz y silencio.
 
+
+
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
+
+		Según la tasa de cruces por cero podemos definir si se trata de un sonido sonoro o sordo.
 
 
 ### Desarrollo del detector de actividad vocal
 
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
+
+		Código en vad.c
 
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto. 
