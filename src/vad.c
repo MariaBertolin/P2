@@ -31,7 +31,7 @@ typedef struct {
  * TODO: Delete and use your own features!
  */
 
-Features compute_features(const float *x, int N) {
+Features compute_features(const float *x, int N, float sampling_rate) {
   /*
    * Input: x[i] : i=0 .... N-1 
    * Ouput: computed features
@@ -43,7 +43,9 @@ Features compute_features(const float *x, int N) {
    */
   Features feat;
   //feat.zcr = feat.p = feat.am = (float) rand()/RAND_MAX;
-  feat.p = compute_power(x,N); //IMPORTANTE CAMBIO
+  feat.p = compute_power(x,N);
+  feat.zcr = compute_zcr(x, N, sampling_rate);
+  feat.am = compute_am(x, N);
   return feat;
 }
 
@@ -78,31 +80,31 @@ unsigned int vad_frame_size(VAD_DATA *vad_data) {
  * using a Finite State Automata
  */
 
-VAD_STATE vad(VAD_DATA *vad_data, float *x, float alfa1) { // AÑADIDO
+VAD_STATE vad(VAD_DATA *vad_data, float *x, float alpha1, float alpha2) {
 
   /* 
    * TODO: You can change this, using your own features,
    * program finite state automaton, define conditions, etc.
    */
 
-  Features f = compute_features(x, vad_data->frame_length);
+  Features f = compute_features(x, vad_data->frame_length, vad_data->sampling_rate);
   vad_data->last_feature = f.p; /* save feature, in case you want to show */
 
   switch (vad_data->state) {
   case ST_INIT:
     vad_data->state = ST_SILENCE;
-    vad_data->p0 = f.p;   //valor silencio
+    vad_data->p0 = f.p;
     break;
 // -45: 79.182%
 // po+5: 89.292%
 // po+6: 89.100%
   case ST_SILENCE:
-    if (f.p > vad_data->p0+alfa1)
+    if (f.p > vad_data->p0+alpha1)
       vad_data->state = ST_VOICE;
     break;
 
   case ST_VOICE:
-    if (f.p < vad_data->p0+alfa1)
+    if (f.p < vad_data->p0+alpha1)
       vad_data->state = ST_SILENCE;
     break;
 
