@@ -33,6 +33,9 @@ int main(int argc, char *argv[]) {
   output_vad = args.output_vad;
   output_wav = args.output_wav;
 
+  float alpha1 = atof(args.alpha1);
+  float alpha2 = atof(args.alpha2);
+
   if (input_wav == 0 || output_vad == 0) {
     fprintf(stderr, "%s\n", args.usage_pattern);
     return -1;
@@ -81,7 +84,7 @@ int main(int argc, char *argv[]) {
       /* TODO: copy all the samples into sndfile_out */
     }
 
-    state = vad(vad_data, buffer);
+    state = vad(vad_data, buffer, alpha1, alpha2);
     if (verbose & DEBUG_VAD) vad_show_state(vad_data, stdout);
 
     /* TODO: print only SILENCE and VOICE labels */
