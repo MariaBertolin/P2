@@ -1,7 +1,7 @@
 #!/bin/bash
 
-alpha1=${1:-5}
-alpha2=${2:-50}  # Establece un valor predeterminado para la tasa de cruce por cero
+alpha1=${1:-5.1}
+alpha2=${2:-6.6}  # Establece un valor predeterminado para la tasa de cruce por cero
 
 
 # Be sure that this file has execution permissions:

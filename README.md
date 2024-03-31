@@ -207,6 +207,7 @@ Recall S:284.82/343.20 82.99%   Precision S:284.82/299.73 95.03%   F-score S (1/
 - Si ha usado `docopt_c` para realizar la gestión de las opciones y argumentos del programa `vad`, inserte
   una captura de pantalla en la que se vea el mensaje de ayuda del programa.
 
+<img src="img/help.png" align="center">
 
 ### Contribuciones adicionales y/o comentarios acerca de la práctica
 
