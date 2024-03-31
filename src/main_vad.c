@@ -8,7 +8,6 @@
 
 #define DEBUG_VAD 0x1
 
-// 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
 int main(int argc, char *argv[]) {
   int verbose = 0; /* To show internal state of vad: verbose = DEBUG_VAD; */
 
