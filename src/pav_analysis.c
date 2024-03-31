@@ -1,5 +1,9 @@
+#define _USE_MATH_DEFINES
+#include <stdio.h>
 #include <math.h>
 #include "pav_analysis.h"
+#define M_PI 3.14159265358979323846
+
 
 float compute_power(const float *x, unsigned int N) {
     // Calcular la suma de los cuadrados de los primeros N valores en el array
@@ -30,8 +34,7 @@ float compute_am(const float *x, unsigned int N) {
     return resultado;
 }
 
-float compute_zcr(const float *x, unsigned int N, float fm)
-{
+float compute_zcr(const float *x, unsigned int N, float fm) {
     // Inicializar la suma de cambios de signo
     int suma_cambios_signo = 0;
 
