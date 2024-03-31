@@ -88,6 +88,9 @@ int main(int argc, char *argv[]) {
     if  ((n_read = sf_read_float(sndfile_in, buffer, frame_size)) != frame_size) 
     break;
 
+    /* Preprocesamiento: normalizar la señal */
+    normalize_signal(buffer, frame_size);
+
     if (sndfile_out != 0) {
       /* TODO: copy all the samples into sndfile_out */
       sf_writef_float(sndfile_out,buffer,frame_size);
