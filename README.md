@@ -168,6 +168,8 @@ Ejercicios
 
 	Finalmente, una vez hecha toda la implementación, obtenemos una F-Score del 95.803%. Este resultado se obtiene de hacer un automata de 4 estados: SILENCE, MAYBE SILENCE, VOICE y MAYBE VOICE. 
 	
+	<img src="img/states_diagram.jpeg" align="center">
+
 	Además de añadir dos estados más, hemos añadido un umbral más, alpha2. 
 	De forma que usamos 2 umbrales: alpha1=5.1 y alpha2=6.6, valores encontrados a base de iteraciones. 
 
