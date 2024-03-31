@@ -35,39 +35,32 @@ int main(int argc, char *argv[]) {
   output_vad = args.output_vad;
   output_wav = args.output_wav;
  
-  //convierto la cadena char a float con atof // AÑADIDO
-
+  // Conversión de cadenas de caracteres a números flotantes utilizando atof
   float alpha1 = atof(args.alpha1);
   float alpha2 = atof(args.alpha2);
 
+  // Verificación de la existencia de los archivos de entrada y salida
   if (input_wav == 0 || output_vad == 0) {
     fprintf(stderr, "%s\n", args.usage_pattern);
     return -1;
   }
 
-  /* Open input sound file */
+  /* Apertura del archivo de audio de entrada */
   if ((sndfile_in = sf_open(input_wav, SFM_READ, &sf_info)) == 0) {
     fprintf(stderr, "Error opening input file %s (%s)\n", input_wav, strerror(errno));
     return -1;
   }
 
+  // Verificación de que el archivo de entrada sea mono
   if (sf_info.channels != 1) {
     fprintf(stderr, "Error: the input file has to be mono: %s\n", input_wav);
     return -2;
   }
 
-  /* Open vad file */
+  /* Apertura del archivo VAD */
   if ((vadfile = fopen(output_vad, "wt")) == 0) {
     fprintf(stderr, "Error opening output vad file %s (%s)\n", output_vad, strerror(errno));
     return -1;
-  }
-
-  /* Open output sound file, with same format, channels, etc. than input */
-  if (output_wav) {
-    if ((sndfile_out = sf_open(output_wav, SFM_WRITE, &sf_info)) == 0) {
-      fprintf(stderr, "Error opening output wav file %s (%s)\n", output_wav, strerror(errno));
-      return -1;
-    }
   }
 
 //   
@@ -88,15 +81,12 @@ int main(int argc, char *argv[]) {
     if  ((n_read = sf_read_float(sndfile_in, buffer, frame_size)) != frame_size) 
     break;
 
-    /* Preprocesamiento: normalizar la señal */
-    normalize_signal(buffer, frame_size);
-
     if (sndfile_out != 0) {
       /* TODO: copy all the samples into sndfile_out */
       sf_writef_float(sndfile_out,buffer,frame_size);
     }
 
-    state = vad(vad_data, buffer,alpha1,alpha2); 
+    state = vad(vad_data, buffer, alpha1, alpha2); 
 
     if (verbose & DEBUG_VAD) vad_show_state(vad_data, stdout);
 

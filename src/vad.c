@@ -164,15 +164,3 @@ void vad_show_state(const VAD_DATA *vad_data, FILE *out) {
   fprintf(out, "%d\t%f\n", vad_data->state, vad_data->last_feature);
 }
 
-/* Función para normalizar la señal de entrada */
-void normalize_signal(float *x, int N) {
-  float max_val = 0.0f;
-  for (int i = 0; i < N; i++) {
-    if (fabs(x[i]) > max_val) {
-      max_val = fabs(x[i]);
-    }
-  }
-  for (int i = 0; i < N; i++) {
-    x[i] /= max_val;
-  }
-}
