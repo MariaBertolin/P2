@@ -202,6 +202,10 @@ Recall S:284.82/343.20 82.99%   Precision S:284.82/299.73 95.03%   F-score S (1/
   la que se vea con claridad la señal antes y después de la cancelación (puede que `wavesurfer` no sea la
   mejor opción para esto, ya que no es capaz de visualizar varias señales al mismo tiempo).
 
+<img src="cancelador.png" align="center">
+
+	bin/vad -i db.v4/2014/pav_4151.wav -o resultado.vad -w salida.wav
+	
 	if (state==ST_SILENCE && sndfile_out != 0){
       sf_seek(sndfile_out, -frame_size, SEEK_CUR); // nos posicionamos en el inicio del frame
       sf_write_float(sndfile_out, buffer_zeros, frame_size); // escribimos todo ceros
