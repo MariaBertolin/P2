@@ -135,16 +135,28 @@ Ejercicios
 - Etiquete manualmente los segmentos de voz y silencio del fichero grabado al efecto. Inserte, a 
   continuación, una captura de `wavesurfer` en la que se vea con claridad la señal temporal, el contorno de
   potencia y la tasa de cruces por cero, junto con el etiquetado manual de los segmentos.
-
+	![alt text](waveedit.png)
+	 [text](pav_2110_MP.lab)
 
 - A la vista de la gráfica, indique qué valores considera adecuados para las magnitudes siguientes:
 
 	* Incremento del nivel potencia en dB, respecto al nivel correspondiente al silencio inicial, para
 	  estar seguros de que un segmento de señal se corresponde con voz.
 
+		Un valor adecuado para diferenciar si el audio es voz o sonido seria poniendo el valor inicial más 5.1dB, ya que vemos que la voz siempre supera este incremento.
+
+		Los valores iniciales de potencia y de ZCR son de -69.799889 y 1257.861694 respectivamente.
+
 	* Duración mínima razonable de los segmentos de voz y silencio.
+		Los tramos de voz suelen ser más largos.
+		Los tramos de silencio entre palabras donde no se percibe una pausa no los vamos a considerar, así pues: 
+			Duración mínima de la voz: 0.7s
+			Duración mínima del silencio: 0.3s
+
 
 	* ¿Es capaz de sacar alguna conclusión a partir de la evolución de la tasa de cruces por cero?
+
+		Esta característica puede ayudar a discernir silencio (ruido) de señales fricativas (/s/, /f/) de baja energía.
 
 
 ### Desarrollo del detector de actividad vocal
@@ -152,15 +164,35 @@ Ejercicios
 - Complete el código de los ficheros de la práctica para implementar un detector de actividad vocal en
   tiempo real tan exacto como sea posible. Tome como objetivo la maximización de la puntuación-F `TOTAL`.
 
+	Primeramente empezamos usando un umbral alpha1 que determina el incremento de la potencia en relación a la potencia inicial. Con este método obtenemos en nuestro fichero de audio una F-Score del 91.235%.
+
+	Finalmente, una vez hecha toda la implementación, obtenemos una F-Score del 95.803%. Este resultado se obtiene de hacer un automata de 4 estados: SILENCE, MAYBE SILENCE, VOICE y MAYBE VOICE. 
+	
+	<img src="img/states_diagram.jpeg" align="center">
+
+	Además de añadir dos estados más, hemos añadido un umbral más, alpha2. 
+	De forma que usamos 2 umbrales: alpha1=5.1 y alpha2=6.6, valores encontrados a base de iteraciones. 
+
+	Alpha1 lo usamos para definir un incremento de potencia para diferenciar la voz del silencio y alpha2 lo usamos en casos donde necesitamos diferenciar el silencio de los sonidos sordos (diferenciandolos por el valor de ZCR) o cuando necesitamos una doble confirmación de que hay voz.
+	
+
 - Inserte una gráfica en la que se vea con claridad la señal temporal, el etiquetado manual y la detección
   automática conseguida para el fichero grabado al efecto. 
+	
+	![alt text](resultado.png)
 
 - Explique, si existen. las discrepancias entre el etiquetado manual y la detección automática.
+
+	Vemos algun error en los sonidos sordos donde puede confundirse con silencio. También vemos que el etiquetado tiene alguna tardanza. 
 
 - Evalúe los resultados sobre la base de datos `db.v4` con el script `vad_evaluation.pl` e inserte a 
   continuación las tasas de sensibilidad (*recall*) y precisión para el conjunto de la base de datos (sólo
   el resumen).
 
+**************** Summary ****************
+Recall V:500.07/514.98 97.10%   Precision V:500.07/558.45 89.55%   F-score V (2)  : 95.49%
+Recall S:284.82/343.20 82.99%   Precision S:284.82/299.73 95.03%   F-score S (1/2): 92.35%
+===> TOTAL: 93.907%
 
 ### Trabajos de ampliación
 
@@ -170,16 +202,25 @@ Ejercicios
   la que se vea con claridad la señal antes y después de la cancelación (puede que `wavesurfer` no sea la
   mejor opción para esto, ya que no es capaz de visualizar varias señales al mismo tiempo).
 
+	if (state==ST_SILENCE && sndfile_out != 0){
+      sf_seek(sndfile_out, -frame_size, SEEK_CUR); // nos posicionamos en el inicio del frame
+      sf_write_float(sndfile_out, buffer_zeros, frame_size); // escribimos todo ceros
+      ...
+    }
+
 #### Gestión de las opciones del programa usando `docopt_c`
 
 - Si ha usado `docopt_c` para realizar la gestión de las opciones y argumentos del programa `vad`, inserte
   una captura de pantalla en la que se vea el mensaje de ayuda del programa.
 
+<img src="img/help.png" align="center">
 
 ### Contribuciones adicionales y/o comentarios acerca de la práctica
 
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
+  
+	Hemos seguido la guía de la práctica.
 
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.
