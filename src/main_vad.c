@@ -112,10 +112,10 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-
+    // ampliació: poso a 0 el silenci
     if (state==ST_SILENCE && sndfile_out != 0){
-      sf_seek(sndfile_out, -frame_size, SEEK_CUR);
-      sf_write_float(sndfile_out, buffer_zeros, frame_size);
+      sf_seek(sndfile_out, -frame_size, SEEK_CUR); // nos posicionamos en el frame que queremos silenciar
+      sf_write_float(sndfile_out, buffer_zeros, frame_size); // escribimos todo ceros
       last_state = state;
     }
   }
