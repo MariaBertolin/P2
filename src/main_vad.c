@@ -63,6 +63,15 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
+  /* Apertura del archivo de salida WAVE si se ha proporcionado un nombre de archivo */
+  if (output_wav != 0) {
+    if ((sndfile_out = sf_open(output_wav, SFM_WRITE, &sf_info)) == 0) {
+      fprintf(stderr, "Error opening output wave file %s (%s)\n", output_wav, strerror(errno));
+      return -1;
+    }
+  }
+
+
 //   
   vad_data = vad_open(sf_info.samplerate);
   /* Allocate memory for buffers */
