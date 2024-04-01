@@ -36,8 +36,11 @@ int main(int argc, char *argv[]) {
   output_wav = args.output_wav;
  
   // Conversión de cadenas de carácteres a números flotantes utilizando atof
-  float alpha1 = atof(args.alpha1);
-  float alpha2 = atof(args.alpha2);
+  //float alpha1 = atof(args.alpha1);
+  //float alpha2 = atof(args.alpha2);
+  float alpha1 = 5.1;
+  float alpha2 = 6.6;
+
 
   // Verificación de la existencia de los archivos de entrada y salida
   if (input_wav == 0 || output_vad == 0) {
