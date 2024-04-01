@@ -219,6 +219,8 @@ Recall S:284.82/343.20 82.99%   Precision S:284.82/299.73 95.03%   F-score S (1/
 
 - Indique a continuación si ha realizado algún tipo de aportación suplementaria (algoritmos de detección o 
   parámetros alternativos, etc.).
+  
+	Hemos seguido la guía de la práctica.
 
 - Si lo desea, puede realizar también algún comentario acerca de la realización de la práctica que
   considere de interés de cara a su evaluación.

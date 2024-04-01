@@ -118,9 +118,10 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alpha1, float alpha2) {
         vad_data->state = ST_MAYBE_SILENCE;
       } 
     break;
-  
+    // usamos la misma variable aux de contador para los dos estados maybe ya que no pueden compartirse, 
+    // puesto que no se puede pasar de un maybe voice a un maybe silence
     case ST_MAYBE_VOICE:
-      if(vad_data->aux >= 90) { //a partir de 90 frames saliendo maybe voice suponemos que era una falsa alarma
+      if(vad_data->aux >= 90) { // a partir de 90 frames saliendo maybe voice suponemos que era una falsa alarma
         vad_data->aux = 0;
         vad_data->state = ST_SILENCE;
 
@@ -133,7 +134,7 @@ VAD_STATE vad(VAD_DATA *vad_data, float *x, float alpha1, float alpha2) {
     break;
 
     case ST_MAYBE_SILENCE:
-      if(((f.p < vad_data->k0 + alpha1) && vad_data->aux >= 8)) {
+      if(((f.p < vad_data->k0 + alpha1) && vad_data->aux >= 8)) { // a partir de 8 frames saliendo maybe silence ponemos silence
         vad_data->aux = 0;
         vad_data->state = ST_SILENCE;
 

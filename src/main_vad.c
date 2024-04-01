@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   output_vad = args.output_vad;
   output_wav = args.output_wav;
  
-  // Conversión de cadenas de caracteres a números flotantes utilizando atof
+  // Conversión de cadenas de carácteres a números flotantes utilizando atof
   float alpha1 = atof(args.alpha1);
   float alpha2 = atof(args.alpha2);
 
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
         if ((state != undefined_state) && (last_state == ST_UNDEF)) { // si canvies d'estat
           if (undefined_state == ST_SILENCE) {
             if (sndfile_out != 0) {
-              sf_seek(sndfile_out,last_t*frame_size, SEEK_SET);
+              sf_seek(sndfile_out,last_t*frame_size, SEEK_SET); //nos movemos al punto inicial
             }
           }
           last_state = state;
